@@ -2,6 +2,11 @@
 
 import { useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Input, TextArea } from "@/components/ui/field";
+import { LabelText, MutedText } from "@/components/ui/typography";
 
 type AccountProfile = {
   firstName: string;
@@ -101,14 +106,6 @@ function hasProfileChanges(current: AccountProfile, baseline: AccountProfile): b
   return PROFILE_FIELD_NAMES.some((field) => current[field] !== baseline[field]);
 }
 
-function inputClassName(hasError: boolean): string {
-  return `w-full rounded-xl border bg-(--color-surface) px-3.5 py-2.5 text-sm text-(--color-text) outline-none transition ${
-    hasError
-      ? "border-red-500 focus:ring-2 focus:ring-red-200"
-      : "border-(--color-border) focus:border-(--color-secondary) focus:ring-2 focus:ring-(--color-ring)"
-  }`;
-}
-
 export default function AccountForm() {
   const [profile, setProfile] = useState<AccountProfile>(defaultProfile);
   const [savedProfile, setSavedProfile] = useState<AccountProfile>(defaultProfile);
@@ -166,25 +163,23 @@ export default function AccountForm() {
   }
 
   return (
-    <section className="rounded-3xl border border-(--color-border) bg-(--color-surface) p-5 shadow-sm md:p-6">
+    <Card className="p-5 md:p-6">
       <div className="mb-5 flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-(--color-primary)">Account Details</h2>
-        <span className="rounded-full bg-(--color-surface-soft) px-3 py-1 text-xs font-medium text-(--color-muted)">
-          UI Prototype
-        </span>
+        <Badge>UI Prototype</Badge>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid gap-4 sm:grid-cols-2">
           {textFields.map((field) => (
             <label className="space-y-1.5" key={field.name}>
-              <span className="text-sm font-medium text-(--color-text)">{field.label}</span>
-              <input
+              <LabelText>{field.label}</LabelText>
+              <Input
                 name={field.name}
                 type={field.type ?? "text"}
                 value={profile[field.name]}
                 onChange={handleChange}
-                className={inputClassName(Boolean(errors[field.name]))}
+                invalid={Boolean(errors[field.name])}
               />
               {errors[field.name] ? (
                 <p className="text-xs text-red-500">{errors[field.name]}</p>
@@ -194,17 +189,17 @@ export default function AccountForm() {
         </div>
 
         <label className="space-y-1.5">
-          <span className="text-sm font-medium text-(--color-text)">Address</span>
-          <textarea
+          <LabelText>Address</LabelText>
+          <TextArea
             name="address"
             value={profile.address}
             onChange={handleChange}
             rows={3}
-            className={inputClassName(Boolean(errors.address))}
+            invalid={Boolean(errors.address)}
           />
           <div className="flex items-center justify-between">
             {errors.address ? <p className="text-xs text-red-500">{errors.address}</p> : <span />}
-            <p className="text-xs text-(--color-muted)">{profile.address.length}/140</p>
+            <MutedText className="text-xs">{profile.address.length}/140</MutedText>
           </div>
         </label>
 
@@ -221,23 +216,19 @@ export default function AccountForm() {
         ) : null}
 
         <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="submit"
-            disabled={!dirty || hasValidationErrors || isSaving}
-            className="inline-flex items-center rounded-xl bg-(--color-primary) px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40"
-          >
+          <Button type="submit" disabled={!dirty || hasValidationErrors || isSaving}>
             {isSaving ? "Saving..." : "Save Changes"}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={handleReset}
             disabled={!dirty || isSaving}
-            className="rounded-xl border border-(--color-border) px-4 py-2.5 text-sm font-medium text-(--color-text) transition hover:border-(--color-secondary) disabled:cursor-not-allowed disabled:opacity-40"
+            variant="outline"
           >
             Reset
-          </button>
+          </Button>
         </div>
       </form>
-    </section>
+    </Card>
   );
 }

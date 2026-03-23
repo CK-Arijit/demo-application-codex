@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 type Theme = "light" | "dark";
 
@@ -27,16 +28,19 @@ export default function ThemeToggle() {
   }
 
   return (
-    <button
+    <Button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex items-center gap-2 rounded-full border border-(--color-border) bg-(--color-surface) px-3 py-2 text-sm font-medium text-(--color-text) transition hover:border-(--color-secondary) hover:text-(--color-primary) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--color-ring)"
+      variant="surface"
+      size="compact"
+      shape="pill"
+      className="hover:text-(--color-primary)"
       aria-label="Toggle theme"
     >
       <span className="grid h-5 w-5 place-items-center rounded-full bg-(--color-surface-soft) text-(--color-primary)">
         ◐
       </span>
       Theme
-    </button>
+    </Button>
   );
 }

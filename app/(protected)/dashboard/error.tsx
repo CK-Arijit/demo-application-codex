@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { Button, buttonClasses } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { EyebrowText, MutedText, PrimaryTitle } from "@/components/ui/typography";
 
 type DashboardErrorProps = Readonly<{
   reset: () => void;
@@ -9,32 +12,21 @@ type DashboardErrorProps = Readonly<{
 export default function DashboardError({ reset }: DashboardErrorProps) {
   return (
     <main className="grid min-h-screen place-content-center px-6">
-      <div className="w-full max-w-md rounded-3xl border border-(--color-border) bg-(--color-surface) p-8 text-center shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-wide text-(--color-secondary)">
-          Dashboard Error
-        </p>
-        <h1 className="mt-3 text-2xl font-semibold text-(--color-primary)">
-          Unable to load the dashboard
-        </h1>
-        <p className="mt-3 text-sm text-(--color-muted)">
+      <Card as="div" className="w-full max-w-md p-8 text-center">
+        <EyebrowText>Dashboard Error</EyebrowText>
+        <PrimaryTitle className="mt-3">Unable to load the dashboard</PrimaryTitle>
+        <MutedText className="mt-3">
           Please try again. If the issue persists, return to sign in.
-        </p>
+        </MutedText>
         <div className="mt-6 flex items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={reset}
-            className="rounded-xl bg-(--color-primary) px-4 py-2 text-sm font-semibold text-white transition hover:opacity-95"
-          >
+          <Button type="button" onClick={reset} size="sm">
             Retry
-          </button>
-          <Link
-            href="/sign-in"
-            className="rounded-xl border border-(--color-border) px-4 py-2 text-sm font-medium text-(--color-text) transition hover:border-(--color-secondary)"
-          >
+          </Button>
+          <Link href="/sign-in" className={buttonClasses({ variant: "outline", size: "sm" })}>
             Sign In
           </Link>
         </div>
-      </div>
+      </Card>
     </main>
   );
 }

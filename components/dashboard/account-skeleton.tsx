@@ -1,15 +1,17 @@
+import { Card } from "@/components/ui/card";
+import { SkeletonBlock } from "@/components/ui/skeleton";
+
 export default function AccountSkeleton() {
   return (
-    <div className="rounded-3xl border border-(--color-border) bg-(--color-surface) p-5 shadow-sm md:p-6">
-      <div className="mb-5 h-6 w-40 animate-pulse rounded bg-(--color-surface-soft)" />
+    <Card as="div" className="p-5 md:p-6">
+      <SkeletonBlock className="mb-5 h-6 w-40 rounded" />
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="h-12 animate-pulse rounded-xl bg-(--color-surface-soft)" />
-        <div className="h-12 animate-pulse rounded-xl bg-(--color-surface-soft)" />
-        <div className="h-12 animate-pulse rounded-xl bg-(--color-surface-soft)" />
-        <div className="h-12 animate-pulse rounded-xl bg-(--color-surface-soft)" />
+        {Array.from({ length: 4 }, (_, index) => (
+          <SkeletonBlock className="h-12" key={index} />
+        ))}
       </div>
-      <div className="mt-4 h-24 animate-pulse rounded-xl bg-(--color-surface-soft)" />
-      <div className="mt-5 h-11 w-32 animate-pulse rounded-xl bg-(--color-surface-soft)" />
-    </div>
+      <SkeletonBlock className="mt-4 h-24" />
+      <SkeletonBlock className="mt-5 h-11 w-32" />
+    </Card>
   );
 }
