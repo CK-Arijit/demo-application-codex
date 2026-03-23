@@ -1,0 +1,9 @@
+.next
+out
+dist
+build
+node_modules
+package-lock.json
+SPEC.md
+AGENTS.md
+README.md
