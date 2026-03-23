@@ -1,0 +1,27 @@
+{
+  "name": "demo-application-codex",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Basic Next.js app",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CK-Arijit/demo-application-codex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CK-Arijit/demo-application-codex/issues"
+  },
+  "homepage": "https://github.com/CK-Arijit/demo-application-codex#readme",
+  "dependencies": {
+    "next": "^16.2.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
