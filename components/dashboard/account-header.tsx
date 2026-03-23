@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { buttonClasses } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EyebrowText, MutedText, PrimaryTitle } from "@/components/ui/typography";
 import ThemeToggle from "../theme/theme-toggle";
@@ -20,17 +18,6 @@ export default function AccountHeader() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link
-            href="/sign-in"
-            className={buttonClasses({
-              variant: "outline",
-              size: "sm",
-              shape: "pill",
-              className: "hover:text-(--color-primary)",
-            })}
-          >
-            Logout
-          </Link>
         </div>
       </div>
     </Card>
