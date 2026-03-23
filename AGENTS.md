@@ -1,7 +1,9 @@
 # Repository Guidelines
 
 ## General Instrctions
-- Always create typescript files
+- Always create typescript files. 
+- .ts file if it contans only logic
+- .tsx file if it returns any json
 
 ## Project Structure & Module Organization
 - Use `SPEC.md` as the source of truth for architecture and behavior.
