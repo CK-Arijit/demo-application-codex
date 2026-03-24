@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { useAuth, useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ type ErrorWithMessages = {
   errors?: Array<{
     longMessage?: string;
     message?: string;
+    code?: string;
   }>;
 };
 
@@ -39,6 +41,42 @@ function getErrorMessage(error: unknown): string {
   }
 
   return "Unable to continue. Please try again.";
+}
+
+function getSentryError(error: unknown): Error {
+  if (error instanceof Error) {
+    return error;
+  }
+
+  return new Error(getErrorMessage(error));
+}
+
+function reportSignInError(params: {
+  action: "email_submit" | "code_submit" | "resend_code";
+  stage: SignInStage;
+  error: unknown;
+}) {
+  const { action, stage, error } = params;
+  const message = getErrorMessage(error);
+
+  Sentry.withScope((scope) => {
+    scope.setTag("page", "sign-in");
+    scope.setTag("auth_action", action);
+    scope.setTag("auth_stage", stage);
+    scope.setContext("sign_in_error", { message });
+
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "errors" in error &&
+      Array.isArray((error as ErrorWithMessages).errors) &&
+      (error as ErrorWithMessages).errors?.[0]?.code
+    ) {
+      scope.setTag("clerk_error_code", (error as ErrorWithMessages).errors?.[0]?.code as string);
+    }
+
+    Sentry.captureException(getSentryError(error));
+  });
 }
 
 export default function SignInPage() {
@@ -85,6 +123,7 @@ export default function SignInPage() {
       setVerificationCode("");
       setFeedbackMessage(`Verification code sent to ${email.trim()}.`);
     } catch (error) {
+      reportSignInError({ action: "email_submit", stage, error });
       setErrorMessage(getErrorMessage(error));
     } finally {
       setIsSubmitting(false);
@@ -128,6 +167,7 @@ export default function SignInPage() {
         throw finalizeError;
       }
     } catch (error) {
+      reportSignInError({ action: "code_submit", stage, error });
       setErrorMessage(getErrorMessage(error));
     } finally {
       setIsSubmitting(false);
@@ -150,6 +190,7 @@ export default function SignInPage() {
       }
       setFeedbackMessage(`A new verification code was sent to ${email.trim()}.`);
     } catch (error) {
+      reportSignInError({ action: "resend_code", stage, error });
       setErrorMessage(getErrorMessage(error));
     } finally {
       setIsSubmitting(false);
