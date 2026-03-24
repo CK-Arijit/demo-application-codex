@@ -7,6 +7,7 @@ dist
 *.pem
 coverage
 .env*.local
+.env.sentry-build-plugin
 
 
 # clerk configuration (can include secrets)
