@@ -12,8 +12,8 @@ export default function AccountHeader() {
           </EyebrowText>
           <PrimaryTitle className="mt-1">Dashboard</PrimaryTitle>
           <MutedText className="mt-2 max-w-lg">
-            Review and edit your account details. Changes are simulated in UI mode right now and
-            will be connected to Salesforce APIs next.
+            Your account data is fetched securely through the internal API and mapped from
+            Salesforce for dashboard display.
           </MutedText>
         </div>
         <div className="flex items-center gap-2">
